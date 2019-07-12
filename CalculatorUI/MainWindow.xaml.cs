@@ -40,94 +40,133 @@ namespace CalculatorUI
             Close();
         }
 
-        string input = string.Empty;
-        string operand1 = string.Empty;
-        string operand2 = string.Empty;
-        char operation;
-        double result = 0.0;
+        double FirstNumber;
+        string Operation;
+
 
         private void Zero_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-            input += "0";
-            Cal.Text = input;
-
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "0";
+            }
+            else
+            {
+                Cal.Text += "0";
+            }
         }
 
         private void Nine_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "9";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "9";
+            }
+            else
+            {
+                Cal.Text += "9";
+            }
         }
 
         private void Eight_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "8";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "8";
+            }
+            else
+            {
+                Cal.Text += "8";
+            }
         }
 
         private void Sevem_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "7";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "7";
+            }
+            else
+            {
+                Cal.Text += "7";
+            }
         }
 
         private void Six_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "6";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "6";
+            }
+            else
+            {
+                Cal.Text += "6";
+            }
         }
 
         private void Five_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "5";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "5";
+            }
+            else
+            {
+                Cal.Text += "5";
+            }
         }
 
         private void Four_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "4";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "4";
+            }
+            else
+            {
+                Cal.Text += "4";
+            }
         }
 
         private void Three_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "3";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "3";
+            }
+            else
+            {
+                Cal.Text += "3";
+            }
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "2";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "2";
+            }
+            else
+            {
+                Cal.Text += "2";
+            }
         }
 
         private void One_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-
-            input += "1";
-            Cal.Text = input;
+            if (Cal.Text == "0" && Cal.Text != null)
+            {
+                Cal.Text = "1";
+            }
+            else
+            {
+                Cal.Text += "1";
+            }
         }
 
         private void Plus_Click(object sender, RoutedEventArgs e)
         {
+            FirstNumber = Convert.ToDouble()
             operand1 = input;
             operation = '+';
             input += string.Empty;
