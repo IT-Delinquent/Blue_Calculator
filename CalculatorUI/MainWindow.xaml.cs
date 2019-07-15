@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,215 +41,134 @@ namespace CalculatorUI
             Close();
         }
 
+        //Toggle buttons but AC
+        private void ToggleButtonExceptAC(bool input)
+        {
+            foreach(Button i in ButtonsGrid.Children)
+            {
+                if (i.Name != "AC")
+                {
+                    i.IsEnabled = input;
+                }
+            }
+        }
+
         double FirstNumber;
         string Operation;
-
-
-        private void Zero_Click(object sender, RoutedEventArgs e)
+        readonly Hashtable numbers = new Hashtable()
         {
-            if (Cal.Text == "0" && Cal.Text != null)
+            {"Zero", "0" },
+            {"One", "1" },
+            {"Two", "2" },
+            {"Three", "3" },
+            {"Four", "4" },
+            {"Five", "5" },
+            {"Six", "6" },
+            {"Seven", "7" },
+            {"Eight", "8" },
+            {"Nine", "9" }
+        };
+
+        private void Num_Click(object sender, RoutedEventArgs e)
+        {
+            Button srcButton = e.Source as Button;
+            string currentValue = numbers[srcButton.Name].ToString();
+            if (Cal.Text == "0" && Cal.Text != null )
             {
+                Cal.Text = currentValue;
+            }
+            else
+            {
+                Cal.Text += currentValue;
+            }
+            Op.Text += currentValue;
+        }
+
+        private void Operator_Click(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(Cal.Text, out double i))
+            {
+                FirstNumber = Convert.ToDouble(i);
                 Cal.Text = "0";
-            }
-            else
-            {
-                Cal.Text += "0";
-            }
-        }
-
-        private void Nine_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "9";
-            }
-            else
-            {
-                Cal.Text += "9";
-            }
-        }
-
-        private void Eight_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "8";
-            }
-            else
-            {
-                Cal.Text += "8";
+                Button srcButton = e.Source as Button;
+                switch (srcButton.Name)
+                {
+                    case "Plus":
+                        Operation = "+";
+                        break;
+                    case "Minus":
+                        Operation = "-";
+                        break;
+                    case "Divide":
+                        Operation = "/";
+                        break;
+                    case "Multiply":
+                        Operation = "*";
+                        break;
+                }
+                Op.Text += Operation;
             }
         }
 
-        private void Sevem_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "7";
-            }
-            else
-            {
-                Cal.Text += "7";
-            }
-        }
-
-        private void Six_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "6";
-            }
-            else
-            {
-                Cal.Text += "6";
-            }
-        }
-
-        private void Five_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "5";
-            }
-            else
-            {
-                Cal.Text += "5";
-            }
-        }
-
-        private void Four_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "4";
-            }
-            else
-            {
-                Cal.Text += "4";
-            }
-        }
-
-        private void Three_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "3";
-            }
-            else
-            {
-                Cal.Text += "3";
-            }
-        }
-
-        private void Two_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "2";
-            }
-            else
-            {
-                Cal.Text += "2";
-            }
-        }
-
-        private void One_Click(object sender, RoutedEventArgs e)
-        {
-            if (Cal.Text == "0" && Cal.Text != null)
-            {
-                Cal.Text = "1";
-            }
-            else
-            {
-                Cal.Text += "1";
-            }
-        }
-
-        private void Plus_Click(object sender, RoutedEventArgs e)
-        {
-            FirstNumber = Convert.ToDouble()
-            operand1 = input;
-            operation = '+';
-            input += string.Empty;
-
-        }
-
-        private void Minus_Click(object sender, RoutedEventArgs e)
-        {
-            operand1 = input;
-            operation = '-';
-            input += string.Empty;
-
-        }
-
-        private void Divide_Click(object sender, RoutedEventArgs e)
-        {
-            operand1 = input;
-            operation = '/';
-            input += string.Empty;
-
-        }
-
-        private void Multply_Click(object sender, RoutedEventArgs e)
-        {
-            operand1 = input;
-            operation = '*';
-            input += string.Empty;
-
-        }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
-            operand2 = input;
-            double num1, num2;
-            double.TryParse(operand1, out num1);
-            double.TryParse(operand2, out num2);
+            double SecondNumber, Result;
+            SecondNumber = Convert.ToDouble(Cal.Text);
 
-            if (operation == '+')
+            switch (Operation)
             {
-                result = num1 + num2;
-                Cal.Text = result.ToString();
-            }else if (operation == '-')
-            {
-                result = num1 - num2;
-                Cal.Text = result.ToString();
+                case "+":
+                    Result = (FirstNumber + SecondNumber);
+                    Cal.Text = Convert.ToString(Result);
+                    FirstNumber = Result;
+                    Op.Text = Convert.ToString(Result);
+                    break;
+                case "-":
+                    Result = (FirstNumber - SecondNumber);
+                    Cal.Text = Convert.ToString(Result);
+                    FirstNumber = Result;
+                    Op.Text = Convert.ToString(Result);
+                    break;
+                case "*":
+                    Result = (FirstNumber * SecondNumber);
+                    Cal.Text = Convert.ToString(Result);
+                    FirstNumber = Result;
+                    Op.Text = Convert.ToString(Result);
+                    break;
+                case "/":
+                    if (SecondNumber == 0)
+                    {
+                        Cal.Text = "Cannot divide by 0!";
+                        Op.Text = string.Empty;
+                        ToggleButtonExceptAC(false);
+                    }
+                    else
+                    {
+                        Result = (FirstNumber / SecondNumber);
+                        Cal.Text = Convert.ToString(Result);
+                        FirstNumber = Result;
+                        Op.Text = Convert.ToString(Result);
+                    }
+                    break;
             }
-
         }
 
         private void Dot_Click(object sender, RoutedEventArgs e)
         {
+            //Ensures their is only one . in a calculation
+            if (!Cal.Text.Contains(".") )
+            {
+                Cal.Text += ".";
 
-            Cal.Text = "";
-
-            input += ".";
-            Cal.Text = input;
-
-
+            }
         }
 
         private void AC_Click(object sender, RoutedEventArgs e)
         {
-            Cal.Text = "";
-            input = string.Empty;
-            operand1 = string.Empty;
-            operand2 = string.Empty;
+            Cal.Text = "0";
+            Op.Text = string.Empty;
+            ToggleButtonExceptAC(true);
         }
-
-        //private void Click(object sender, RoutedEventArgs e)
-        //{
-        //Cal.Text = "";
-        //Button srcButton = e.Source as Button;
-        //CalculationsClass.ParseInput(srcButton.Name);
-        //Cal.Text += CalculationsClass.ReturnInput().ToString();
-
-        //Checking if the calculation already has a .
-        //if (Cal.Text.Contains("."))
-        //{
-        //    Dot.IsEnabled = false;
-        //}
-
-        //Op.Text = CalculationsClass.Result.ToString();
-        //}
     }
 }
