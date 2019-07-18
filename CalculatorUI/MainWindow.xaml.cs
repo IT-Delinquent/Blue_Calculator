@@ -1,33 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace CalculatorUI
+﻿namespace CalculatorUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    using System;
+    using System.Data;
+    using System.Text.RegularExpressions;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+
     public partial class MainWindow : Window
     {
-        //Creating initial variables and hashtable
-        double FirstNumber;
-        string Operation;
-        readonly Hashtable numbers = new Hashtable()
-        {
-            {"Zero", "0" },
-            {"One", "1" },
-            {"Two", "2" },
-            {"Three", "3" },
-            {"Four", "4" },
-            {"Five", "5" },
-            {"Six", "6" },
-            {"Seven", "7" },
-            {"Eight", "8" },
-            {"Nine", "9" }
-        };
-
         //Initializing component
         public MainWindow()
         {
@@ -49,18 +30,6 @@ namespace CalculatorUI
             Close();
         }
 
-        //Toggle buttons but AC
-        private void ToggleButtonExceptAC(bool input)
-        {
-            foreach(Button i in ButtonsGrid.Children)
-            {
-                if (i.Name != "AC")
-                {
-                    i.IsEnabled = input;
-                }
-            }
-        }
-
         //Update Cal TextBox with the option to override or append
         void UpdateCalText(string input, bool append)
         {
@@ -75,7 +44,7 @@ namespace CalculatorUI
         }
 
         //Update Op TextBox with the option to override or append
-        void updateOpText(string input, bool append)
+        void UpdateOpText(string input, bool append)
         {
             if (append)
             {
@@ -87,125 +56,103 @@ namespace CalculatorUI
             }
         }
 
-        //Returns the current value of the Cal TextBox
-        string GetCalText()
+        //Returns the current value of the Op TextBox
+        string GetOpText()
         {
-            return Cal.Text;
+            return Op.Text;
         }
 
-        //Event for when the user presses a number button
-        private void Num_Click(object sender, RoutedEventArgs e)
+        //Checks if the Op TextBlock ends with a digit - returns boolean
+        private bool OpEndswithaDigit()
         {
-            //Getting the source button by name
-            Button srcButton = e.Source as Button;
-            string currentValue = numbers[srcButton.Name].ToString();
-            //Checking if the Cal TextBox contains just a "0" or if it is null
-            if (GetCalText() == "0" && GetCalText() != null )
+            if ( Regex.Match(GetOpText(), @"\d{1}$").Success )
             {
-                UpdateCalText(currentValue, false);
+                return true;
             }
             else
             {
-                UpdateCalText(currentValue, true);
+                return false;
             }
-            updateOpText(currentValue, true);
         }
 
-        //Event for when the user presses an operator button
+        //Event when the user presses a number button
+        private void Num_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the button that was pressed
+            Button srcButton = e.Source as Button;
+            //Add the content of the current button to currentValue
+            string currentValue = srcButton.Content.ToString();
+            //Get if the Op TextBlock is "0" or empty
+            if (GetOpText() == "0" || GetOpText() == null)
+            {
+                UpdateOpText(currentValue, false);
+            }
+            else
+            {
+                UpdateOpText(currentValue, true);
+            }
+        }
+        //Event when the user presses an operator button
         private void Operator_Click(object sender, RoutedEventArgs e)
         {
-            //Checking if the Cal TextBox text can be parsed into a type double
-            //If not, then do nothing
-            if (double.TryParse(Cal.Text, out double i))
+            //Setting the button that was just pressed
+            Button srcButton = e.Source as Button;
+            //Adding the content of the current button to currentValue
+            string currentValue = srcButton.Content.ToString();
+            //Checking if the Op TextBlock is not empty and ends with a digit
+            if (GetOpText() != null && OpEndswithaDigit())
             {
-                //Setting first number, updating Cal TextBox and getting source button
-                FirstNumber = Convert.ToDouble(i);
-                UpdateCalText("0", false);
-                Button srcButton = e.Source as Button;
-                //Using switch to update the operation variable based on the source button's name
-                switch (srcButton.Name)
-                {
-                    case "Plus":
-                        Operation = "+";
-                        break;
-                    case "Minus":
-                        Operation = "-";
-                        break;
-                    case "Divide":
-                        Operation = "/";
-                        break;
-                    case "Multiply":
-                        Operation = "*";
-                        break;
-                }
-                //Updating Op TextBox
-                updateOpText(Operation, true);
+                UpdateOpText(currentValue, true);
             }
         }
 
-        //Event for when the user clicks the equals button
+        //Event when the user presses the equals button
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
-            //Creating two new variables for the calculation
-            double SecondNumber, Result;
-            SecondNumber = Convert.ToDouble(Cal.Text);
-            //Switching the Operator variable to see what to do
-            switch (Operation)
+            //Checking if the Op TextBlock ends with a digit
+            //If not then don't do anything
+            if (OpEndswithaDigit())
             {
-                case "+":
-                    Result = (FirstNumber + SecondNumber);
-                    UpdateCalText(Convert.ToString(Result), false);
-                    FirstNumber = Result;
-                    updateOpText(Convert.ToString(Result), false);
-                    break;
-                case "-":
-                    Result = (FirstNumber - SecondNumber);
-                    UpdateCalText(Convert.ToString(Result), false);
-                    FirstNumber = Result;
-                    UpdateCalText(Convert.ToString(Result), false);
-                    break;
-                case "*":
-                    Result = (FirstNumber * SecondNumber);
-                    UpdateCalText(Convert.ToString(Result), false);
-                    FirstNumber = Result;
-                    UpdateCalText(Convert.ToString(Result), false);
-                    break;
-                case "/":
-                    if (SecondNumber == 0)
-                    {
-                        UpdateCalText("Cannot divide by o!", false);
-                        updateOpText(string.Empty, false);
-                        ToggleButtonExceptAC(false);
-                    }
-                    else
-                    {
-                        Result = (FirstNumber / SecondNumber);
-                        UpdateCalText(Convert.ToString(Result), false);
-                        FirstNumber = Result;
-                        UpdateCalText(Convert.ToString(Result), false);
-                    }
-                    break;
+                UpdateCalText(Equals_Operation(GetOpText()).ToString(), false);
+                UpdateOpText(string.Empty, false);
             }
         }
 
-        //Event for when the user presses the dot button
-        private void Dot_Click(object sender, RoutedEventArgs e)
+        //Process when the equals button press event
+        private double Equals_Operation(string expression)
         {
-            //Checking if there is already a full stop in the Cal TextBox
-            //Ensures their is only one . in a calculation
-            if (GetCalText().Contains("."))
+            //Checking if the Op TextBlock contains a divide by 0
+            //Only perform the calculation if it doesn't
+            if (GetOpText().Contains("/0"))
             {
-                UpdateCalText(".", true);
+                return 0;
+            }
+            else {
+                DataTable table = new DataTable();
+                table.Columns.Add("expression", typeof(string), expression);
+                DataRow row = table.NewRow();
+                table.Rows.Add(row);
+                return double.Parse((string)row["expression"]);
             }
         }
 
-        //Event for when the user presses the dot button
+        //Event when the user presses the AC button
         private void AC_Click(object sender, RoutedEventArgs e)
         {
-            UpdateCalText("0", false);
-            updateOpText(string.Empty, false);
-            ToggleButtonExceptAC(true);
-            Operation = string.Empty;
+            //Clearing values
+            UpdateCalText(string.Empty, false);
+            UpdateOpText(string.Empty, false);
+        }
+
+        //Event for when the user presses the Dot button
+        private void Dot_Click(object sender, RoutedEventArgs e)
+        {
+            //Checking if the Op TextBlock doesn't already contain a dot and
+            //if it isn't empty
+            if (!GetOpText().Contains(".") && GetOpText() != "")
+            {
+                UpdateOpText(".", true);
+            }
         }
     }
 }

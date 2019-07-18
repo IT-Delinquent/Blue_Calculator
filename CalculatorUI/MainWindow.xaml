@@ -192,10 +192,10 @@
                 </Grid.RowDefinitions>
                 <!-- Operators -->
                 <Button Name="AC" Content="AC" Style="{StaticResource BlueButtonsStyle}" Click="AC_Click"/>
-                <Button Name="Plus" Content="&#x2b;" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="1" Click="Operator_Click"/>
-                <Button Name="Minus" Content="&#x2212;" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="2" Click="Operator_Click" />
-                <Button Name="Divide" Content="&#xf7;" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="3" Click="Operator_Click"/>
-                <Button Name="Multiply" Content="&#xd7;" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="3" Grid.Row="1" Click="Operator_Click"/>
+                <Button Name="Plus" Content="+" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="1" Click="Operator_Click"/>
+                <Button Name="Minus" Content="-" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="2" Click="Operator_Click" />
+                <Button Name="Divide" Content="/" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="3" Click="Operator_Click"/>
+                <Button Name="Multiply" Content="*" Style="{StaticResource BlueButtonsStyle}"  Grid.Column="3" Grid.Row="1" Click="Operator_Click" />
                 <Button Name="Equals" Content="&#x3d;" Style="{StaticResource EqualsButtonStyle}" Grid.Column="3" Grid.Row="2" Grid.RowSpan="3" Click="Equals_Click"/>
                 <Button Name="Dot" Content="." Style="{StaticResource BlueButtonsStyle}" Grid.Column="2" Grid.Row="4" Click="Dot_Click"/>
                 <!-- Numbers -->
