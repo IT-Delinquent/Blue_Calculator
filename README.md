@@ -11,4 +11,6 @@ I have also left the exe in the GitHub files incase you want to download it and 
 
 ![alt text](https://github.com/IT-Delinquent/Blue_Calculator/blob/master/Blue_Calculator_gif.gif)
 
-Let me know what you think 🎉 I know there are still quite a lot bugs, but it's fun just to create a functional thingy from the sketch up
+Let me know what you think 🎉 There were a lot of bugs with the original code-behind so I completely changed it to what I think a calculator should do. There are still a couple of bugs/missing features that I might add in future.
+
+~I know there are still quite a lot bugs, but it's fun just to create a functional thingy from the sketch up~
