@@ -1,4 +1,5 @@
 # Blue_Calculator
+[![CodeFactor](https://www.codefactor.io/repository/github/it-delinquent/blue_calculator/badge)](https://www.codefactor.io/repository/github/it-delinquent/blue_calculator)
 #### A simple WPF calculator styled off the the work from [Faustine](https://dribbble.com/garnouche)
 
 This calculator was styled using this [Dribbble Post](https://dribbble.com/shots/6556922--Calculator), here is a little image 
